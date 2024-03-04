@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -9,17 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    deploy:
+    runs-on: ubuntu-latest
+    needs: build
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - name: Deploy to AWS CodeDeploy
+      uses: aws-actions/aws-codedeploy@v2
       with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run tests
-      run: npm test
+        application-name: ramyacode-deploy
+        deployment-group: cd-r
+        region: us-east-1
+      env:
+        AWS_REGION: us-east-1
+        AWS_ACCESS_KEY_ID: ${{ AKIAW3MEAPIONHG2JZ7S }}
+        AWS_SECRET_ACCESS_KEY: ${{ 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 }}
